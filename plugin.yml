@@ -1,0 +1,6 @@
+name: TreasureFaction
+version: 1.0.0
+main: Treasure\Faction\Faction
+authors:
+  - TreasureTeam
+api: [ 5.0.0 ]
