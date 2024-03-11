@@ -3,25 +3,27 @@
 namespace Treasure\Faction;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 
 final class Faction extends PluginBase
 {
     use SingletonTrait;
 
+    private Config $config;
+
     protected function onLoad(): void
     {
-        self::setInstance($this);
+        self::setInstance(instance: $this);
+
+        @$this->saveResource(filename: "faction.yml");
+
+        $this->config = new Config(file: $this->getDataFolder() . "faction.yml");
     }
 
-    protected function onEnable(): void
+    public function getConfig(): Config
     {
-        parent::onEnable();
-    }
-
-    protected function onDisable(): void
-    {
-        parent::onDisable();
+        return $this->config;
     }
 
 }
