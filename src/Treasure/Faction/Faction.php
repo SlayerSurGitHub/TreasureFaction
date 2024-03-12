@@ -6,6 +6,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 use Treasure\Faction\language\Language;
+use Treasure\Faction\provider\Provider;
 
 final class Faction extends PluginBase
 {
@@ -22,6 +23,8 @@ final class Faction extends PluginBase
         $this->config = new Config(file: $this->getDataFolder() . "faction.yml");
 
         @$this->saveResource(filename: "language/" . $this->config->get(k: "default_language") ."_language.yml");
+
+        @mkdir(directory: $this->getDataFolder() . "provider");
     }
 
     protected function onEnable(): void
@@ -29,6 +32,13 @@ final class Faction extends PluginBase
         @mkdir(directory: $this->getDataFolder() . "language");
 
         new Language(config: new Config(file: $this->getDataFolder() . "language/" . $this->config->get(k: "default_language") . "_language.yml"));
+
+        Provider::FACTION()->loadFactions();
+    }
+
+    protected function onDisable(): void
+    {
+        Provider::FACTION()->saveFactions();
     }
 
     public function getConfig(): Config

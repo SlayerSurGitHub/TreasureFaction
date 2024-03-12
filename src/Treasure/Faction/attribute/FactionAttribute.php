@@ -5,7 +5,7 @@ namespace Treasure\Faction\attribute;
 use Treasure\Faction\permission\FactionHolder;
 use Treasure\Faction\permission\FactionPermission;
 
-final class FactionAttribute
+final class FactionAttribute implements \JsonSerializable
 {
     public function __construct
     (
@@ -60,6 +60,20 @@ final class FactionAttribute
     public function getPermissions(): array
     {
         return $this->permissions;
+    }
+
+    public static function parse(array $jsonSerialize): self
+    {
+        return new self($jsonSerialize["name"], $jsonSerialize["members"], $jsonSerialize["permissions"]);
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            "name" => $this->name,
+            "members" => $this->members,
+            "permissions" => $this->permissions
+        ];
     }
 
 }

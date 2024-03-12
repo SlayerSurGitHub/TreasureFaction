@@ -2,8 +2,10 @@
 
 namespace Treasure\Faction\provider;
 
+use pocketmine\utils\Config;
 use pocketmine\utils\RegistryTrait;
 use pocketmine\utils\SingletonTrait;
+use Treasure\Faction\Faction;
 use Treasure\Faction\provider\type\FactionProvider;
 
 /**
@@ -21,7 +23,7 @@ final class Provider
 
     protected static function setup(): void
     {
-        self::_registryRegister(name: "faction", member: new FactionProvider());
+        self::_registryRegister(name: "faction", member: new FactionProvider(config: new Config(file: Faction::getInstance()->getDataFolder() . "provider/faction.json")));
     }
 
 }
