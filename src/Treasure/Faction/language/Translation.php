@@ -7,7 +7,7 @@ final readonly class Translation
     public function __construct
     (
         private string $key,
-        private array  $parameters,
+        private array  $parameters = [],
     )
     {}
 
