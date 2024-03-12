@@ -11,7 +11,7 @@ final class FactionAttribute
     (
         private string $name,
         private array $members = [
-            FactionHolder::LEADER => null,
+            FactionHolder::LEADER => [null],
             FactionHolder::OFFICER => [], FactionHolder::MEMBER => [], FactionHolder::RECRUIT => []
         ],
         private array $permissions = [
@@ -42,14 +42,19 @@ final class FactionAttribute
         return $this->members;
     }
 
+    public function getHolder(string $username): string
+    {
+        return array_search(needle: $username, haystack: array_column(array: $this->members, column_key: null,  index_key: 0)) ?: FactionHolder::RECRUIT;
+    }
+
     public function addPermission(string $holder, string $permission): void
     {
-        if (in_array(needle: $permission, haystack: $this->permissions[$holder]))
-        {
-            return;
-        }
-
         $this->permissions[$holder][] = $permission;
+    }
+
+    public function hasPermission(string $holder, string $permission): bool
+    {
+        return in_array(needle: $permission, haystack: $this->permissions[$holder]);
     }
 
     public function getPermissions(): array
