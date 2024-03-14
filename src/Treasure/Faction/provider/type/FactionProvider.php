@@ -22,7 +22,7 @@ final class FactionProvider
 
         foreach ($config->getAll() as $name => $values)
         {
-            $result[$name] = FactionAttribute::parse(jsonSerialize: $values);
+            $result[$name] = FactionAttribute::jsonUnserialize(jsonSerialize: $values);
         }
 
         $this->factions = $result;

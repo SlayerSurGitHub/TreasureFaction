@@ -47,14 +47,24 @@ final class FactionAttribute implements \JsonSerializable
         return array_search(needle: $username, haystack: array_column(array: $this->members, column_key: null,  index_key: 0)) ?: FactionHolder::RECRUIT;
     }
 
-    public function addPermission(string $holder, string $permission): void
+    public function setPermission(string $holder, string $permission, bool $value): void
     {
-        $this->permissions[$holder][] = $permission;
+        if (in_array(needle: $permission, haystack: $this->permissions[$holder]))
+        {
+            if ($value) return;
+
+            unset($this->permissions[$holder][array_search(needle: $permission, haystack: $this->permissions[$holder])]);
+        }
+        elseif ($value)
+        {
+            $this->permissions[$holder][] = $permission;
+        }
+
     }
 
     public function hasPermission(string $holder, string $permission): bool
     {
-        return in_array(needle: $permission, haystack: $this->permissions[$holder]);
+        return in_array(needle: $permission, haystack: $this->permissions[$holder]) or in_array(needle: FactionPermission::ALL, haystack: $this->permissions[$holder]);
     }
 
     public function getPermissions(): array
@@ -62,7 +72,7 @@ final class FactionAttribute implements \JsonSerializable
         return $this->permissions;
     }
 
-    public static function parse(array $jsonSerialize): self
+    public static function jsonUnserialize(array $jsonSerialize): self
     {
         return new self($jsonSerialize["name"], $jsonSerialize["members"], $jsonSerialize["permissions"]);
     }
