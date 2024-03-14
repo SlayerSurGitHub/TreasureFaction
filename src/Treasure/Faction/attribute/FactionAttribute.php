@@ -4,6 +4,7 @@ namespace Treasure\Faction\attribute;
 
 use Treasure\Faction\permission\FactionHolder;
 use Treasure\Faction\permission\FactionPermission;
+use Treasure\Faction\registration\Registration;
 
 final class FactionAttribute implements \JsonSerializable
 {
@@ -19,6 +20,7 @@ final class FactionAttribute implements \JsonSerializable
             FactionHolder::MEMBER => [FactionPermission::BUILD, FactionPermission::INTERACT, FactionPermission::SEARCH],
             FactionHolder::RECRUIT => [FactionPermission::INTERACT]
         ],
+        private array $logs = [],
     )
     {}
 
@@ -86,6 +88,16 @@ final class FactionAttribute implements \JsonSerializable
     public function getPermissions(): array
     {
         return $this->permissions;
+    }
+
+    public function addLog(Registration $registration): void
+    {
+        $this->logs[] = $registration->toText();
+    }
+
+    public function getLogs(): array
+    {
+        return $this->logs;
     }
 
     public static function jsonUnserialize(array $jsonSerialize): self
