@@ -44,7 +44,9 @@ abstract class ArgumentFactionCommand extends BaseSubCommand
                 return;
             }
 
-            if (Provider::FACTION()->getFaction(username: $sender->getName())->getHolder(username: $sender->getName()) < self::REQUIRED_HOLDER)
+            $faction = Provider::FACTION()->getFaction(username: $sender->getName());
+
+            if ($faction->getHolder(username: $sender->getName()) < self::REQUIRED_HOLDER)
             {
                 $sender->sendMessage(
                     Language::getInstance()->translate(translation: new Translation(key: "command.lowHolder.message"))
@@ -53,9 +55,16 @@ abstract class ArgumentFactionCommand extends BaseSubCommand
             }
 
         }
+        elseif ($hasFaction)
+        {
+            $sender->sendMessage(
+                Language::getInstance()->translate(translation: new Translation(key: "command.haveFaction.message"))
+            );
+            return;
+        }
 
-        $this->onPostExecute(player: $sender, faction: $hasFaction ? Provider::FACTION()->getFaction($sender->getName()) : null);
+        $this->onPostExecute(player: $sender, faction: $hasFaction ? $faction : null, args: $args);
     }
 
-    abstract public function onPostExecute(Player $player, ?FactionAttribute $faction): void;
+    abstract public function onPostExecute(Player $player, ?FactionAttribute $faction, array $args): void;
 }

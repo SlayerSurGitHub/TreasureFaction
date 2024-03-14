@@ -1,5 +1,9 @@
 unknown: "Message {key} introuvable !"
 
+command.createFaction.message: "La Faction {faction} vient d'être créer !"
+
+command.alreadyFactionExist.message: "Cette faction éxiste deja !"
+command.haveFaction.message: "Vous ne pouvez pas faire cette commande en étant dans une Faction !"
 command.requiredFaction.message: "La commande {command} vous demande d'être dans une Faction!"
 command.lowHolder.message: "Vous n'avez pas la permission de faire cette commande !"
 

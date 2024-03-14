@@ -5,6 +5,7 @@ namespace Treasure\Faction\command;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
+use Treasure\Faction\command\argument\CreateCommand;
 use Treasure\Faction\command\commando\BaseCommand;
 use Treasure\Faction\Faction;
 
@@ -17,6 +18,8 @@ final class FactionCommand extends BaseCommand
 
     protected function prepare(): void
     {
+        $this->registerSubCommand(subCommand: new CreateCommand(name: "create", description: "Create a Faction"));
+
         $this->setPermission(permission: DefaultPermissions::ROOT_USER);
     }
 

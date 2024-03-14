@@ -11,7 +11,7 @@ final class FactionAttribute implements \JsonSerializable
     (
         private string $name,
         private array $members = [
-            FactionHolder::LEADER => [null],
+            FactionHolder::LEADER => [],
             FactionHolder::OFFICER => [], FactionHolder::MEMBER => [], FactionHolder::RECRUIT => []
         ],
         private array $permissions = [
@@ -32,7 +32,7 @@ final class FactionAttribute implements \JsonSerializable
         return $this->name;
     }
 
-    public function addMember(string $username, ?string $holder = null): void
+    public function addMember(string $username, ?int $holder = null): void
     {
         $this->members[$holder ?? FactionHolder::RECRUIT][] = $username;
     }

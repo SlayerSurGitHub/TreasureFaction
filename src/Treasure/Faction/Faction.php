@@ -6,6 +6,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 use Treasure\Faction\attribute\FactionAttribute;
+use Treasure\Faction\command\FactionCommand;
 use Treasure\Faction\language\Language;
 use Treasure\Faction\permission\FactionHolder;
 use Treasure\Faction\provider\Provider;
@@ -37,8 +38,7 @@ final class Faction extends PluginBase
 
         Provider::FACTION()->loadFactions();
 
-        $faction = new FactionAttribute(name: "Test");
-        $faction->addMember("slayer", FactionHolder::OFFICER);
+        $this->getServer()->getCommandMap()->register(fallbackPrefix: "", command: new FactionCommand());
     }
 
     protected function onDisable(): void
