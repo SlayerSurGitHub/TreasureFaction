@@ -37,12 +37,28 @@ final class FactionAttribute implements \JsonSerializable
         $this->members[$holder ?? FactionHolder::RECRUIT][] = $username;
     }
 
+    public function removeMember(string $username): void
+    {
+        array_walk(array: $this->members, callback: function (&$values) use ($username): void
+        {
+            if (in_array(needle: $username, haystack: $values)) unset($values[array_search(needle: $username, haystack: $values)]);
+        });
+    }
+
+    public function isMember(string $username): bool
+    {
+        return array_reduce(array: $this->members, callback: function($carry, $values) use ($username)
+        {
+            return $carry or in_array(needle: $username, haystack: $values);
+        }, initial: false);
+    }
+
     public function getMembers(): array
     {
         return $this->members;
     }
 
-    public function getHolder(string $username): string
+    public function getHolder(string $username): int
     {
         return array_search(needle: $username, haystack: array_column(array: $this->members, column_key: null,  index_key: 0)) ?: FactionHolder::RECRUIT;
     }
@@ -82,7 +98,7 @@ final class FactionAttribute implements \JsonSerializable
         return [
             "name" => $this->name,
             "members" => $this->members,
-            "permissions" => $this->permissions
+            "permissions" => $this->permissions,
         ];
     }
 

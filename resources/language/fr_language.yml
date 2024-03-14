@@ -1,1 +1,6 @@
 unknown: "Message {key} introuvable !"
+
+command.requiredFaction.message: "La commande {command} vous demande d'être dans une Faction!"
+command.lowHolder.message: "Vous n'avez pas la permission de faire cette commande !"
+
+invalid.str.message: "La chaîne de caractères {str} est invalide pour cette utilisation !"

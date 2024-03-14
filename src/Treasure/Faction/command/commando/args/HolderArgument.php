@@ -1,25 +1,24 @@
 <?php
 
-namespace Treasure\Faction\command\argument;
+namespace Treasure\Faction\command\commando\args;
 
 use pocketmine\command\CommandSender;
-use Treasure\Faction\command\commando\args\StringEnumArgument;
-use Treasure\Faction\permission\FactionPermission;
+use Treasure\Faction\permission\FactionHolder;
 
-final class PermissionArgument extends StringEnumArgument
+final class HolderArgument extends StringEnumArgument
 {
     protected const VALUES = [
-        FactionPermission::ALL, FactionPermission::MANAGE, FactionPermission::BUILD, FactionPermission::SEARCH, FactionPermission::INTERACT
+        FactionHolder::LEADER, FactionHolder::OFFICER, FactionHolder::MEMBER, FactionHolder::RECRUIT
     ];
 
     public function getTypeName(): string
     {
-        return "permission";
+        return "holder";
     }
 
     public function getEnumName(): string
     {
-        return "permission";
+        return "holder";
     }
 
     public function parse(string $argument, CommandSender $sender): ?string

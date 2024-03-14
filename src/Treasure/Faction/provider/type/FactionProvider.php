@@ -52,6 +52,29 @@ final class FactionProvider
         $this->factions[strtolower(string: $attribute->getName())] = $attribute;
     }
 
+    public function getFaction(string $username): ?FactionAttribute
+    {
+        $result = null;
+
+        foreach ($this->factions as $faction)
+        {
+            if (!$faction->isMember(member: $username)) continue;
+
+            $result = $faction;
+            break;
+        }
+
+        return $result;
+    }
+
+    public function hasFaction(string $username): bool
+    {
+        return array_reduce(array: $this->factions, callback: function($carry, $faction) use ($username)
+        {
+            return $carry or $faction->isMember(member: $username);
+        }, initial: false);
+    }
+
     public function getFactions(): array
     {
         return $this->factions;

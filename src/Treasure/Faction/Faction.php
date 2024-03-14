@@ -8,7 +8,6 @@ use pocketmine\utils\SingletonTrait;
 use Treasure\Faction\attribute\FactionAttribute;
 use Treasure\Faction\language\Language;
 use Treasure\Faction\permission\FactionHolder;
-use Treasure\Faction\permission\FactionPermission;
 use Treasure\Faction\provider\Provider;
 
 final class Faction extends PluginBase
@@ -38,9 +37,8 @@ final class Faction extends PluginBase
 
         Provider::FACTION()->loadFactions();
 
-        Provider::FACTION()->addFaction(
-            attribute: new FactionAttribute(name: "Test")
-        );
+        $faction = new FactionAttribute(name: "Test");
+        $faction->addMember("slayer", FactionHolder::OFFICER);
     }
 
     protected function onDisable(): void
