@@ -42,6 +42,16 @@ final class FactionProvider
         $config->save();
     }
 
+    public function addFaction(FactionAttribute $attribute): void
+    {
+        if (array_key_exists(key: strtolower(string: $attribute->getName()), array: $this->factions))
+        {
+            return;
+        }
+
+        $this->factions[strtolower(string: $attribute->getName())] = $attribute;
+    }
+
     public function getFactions(): array
     {
         return $this->factions;

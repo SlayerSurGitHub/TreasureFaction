@@ -38,8 +38,9 @@ final class Faction extends PluginBase
 
         Provider::FACTION()->loadFactions();
 
-        $faction = new FactionAttribute("Test");
-        $faction->setPermission(FactionHolder::MEMBER, FactionPermission::ALL, true);
+        Provider::FACTION()->addFaction(
+            attribute: new FactionAttribute(name: "Test")
+        );
     }
 
     protected function onDisable(): void
