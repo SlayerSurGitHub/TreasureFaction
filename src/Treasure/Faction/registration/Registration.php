@@ -4,8 +4,6 @@ namespace Treasure\Faction\registration;
 
 abstract readonly class Registration
 {
-    public const FACTION_LOG = "faction_log";
-
     public function __construct
     (
         private string $type,

@@ -8,4 +8,5 @@ final class FactionHolder
     const OFFICER = 1;
     const MEMBER = 2;
     const RECRUIT = 3;
+    const ALLIANCE = -1;
 }

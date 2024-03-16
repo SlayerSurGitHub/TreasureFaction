@@ -5,6 +5,7 @@ namespace Treasure\Faction\attribute;
 use Treasure\Faction\event\permission\PermissionChangeEvent;
 use Treasure\Faction\permission\FactionHolder;
 use Treasure\Faction\permission\FactionPermission;
+use Treasure\Faction\provider\Provider;
 use Treasure\Faction\registration\Registration;
 
 final class FactionAttribute implements \JsonSerializable
@@ -19,9 +20,11 @@ final class FactionAttribute implements \JsonSerializable
         private array $permissions = [
             FactionHolder::LEADER => [FactionPermission::ALL], FactionHolder::OFFICER => [FactionPermission::ALL],
             FactionHolder::MEMBER => [FactionPermission::BUILD, FactionPermission::INTERACT, FactionPermission::SEARCH],
-            FactionHolder::RECRUIT => [FactionPermission::INTERACT]
+            FactionHolder::RECRUIT => [FactionPermission::INTERACT],
+            FactionHolder::ALLIANCE => [FactionPermission::BUILD, FactionPermission::INTERACT]
         ],
-        private array $logs = [],
+        private array $alliances = [],
+        private array $registrations = [],
     )
     {}
 
@@ -92,14 +95,53 @@ final class FactionAttribute implements \JsonSerializable
         return $this->permissions;
     }
 
-    public function addLog(Registration $registration): void
+    public function addAlliance(self $faction): void
     {
-        $this->logs[] = $registration->toText();
+        if (in_array(needle: $faction->getName(), haystack: $this->alliances))
+        {
+            return;
+        }
+
+        $this->alliances[] = $faction->getName();
     }
 
-    public function getLogs(): array
+    public function removeAlliance(self $faction): void
     {
-        return $this->logs;
+        if (!in_array(needle: $faction->getName(), haystack: $this->alliances))
+        {
+            return;
+        }
+
+        unset($this->alliances[array_key_exists(key: $faction->getName(), array: $this->alliances)]);
+    }
+
+    public function isAlliance(self $faction): bool
+    {
+        return in_array(needle: $faction->getName(), haystack: $this->alliances);
+    }
+
+    public function getAlliances(): array
+    {
+        return $this->alliances;
+    }
+
+    public function addRegistration(Registration $registration): void
+    {
+        $this->registrations[] = $registration->toText();
+    }
+
+    public function getRegistrations(): array
+    {
+        return $this->registrations;
+    }
+
+    public function getTotalPower(): float
+    {
+         return array_reduce(array: $this->members, callback: function($carry, $member)
+         {
+            $factionPlayer = Provider::SESSION()->getSession($member);
+            return is_null(value: $factionPlayer) ? $carry : $carry + $factionPlayer->getPower();
+        }, initial: 0.0);
     }
 
     public static function jsonUnserialize(array $jsonSerialize): self
