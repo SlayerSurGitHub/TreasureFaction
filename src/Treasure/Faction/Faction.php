@@ -6,6 +6,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 use Treasure\Faction\command\FactionCommand;
+use Treasure\Faction\event\FactionListener;
 use Treasure\Faction\language\Language;
 use Treasure\Faction\provider\Provider;
 
@@ -37,6 +38,7 @@ final class Faction extends PluginBase
         Provider::FACTION()->loadFactions();
         Provider::SESSION()->loadSessions();
 
+        $this->getServer()->getPluginManager()->registerEvents(listener: new FactionListener(), plugin: $this);
         $this->getServer()->getCommandMap()->register(fallbackPrefix: "", command: new FactionCommand());
     }
 

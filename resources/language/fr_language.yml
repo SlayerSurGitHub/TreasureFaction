@@ -2,6 +2,7 @@ unknown: "Message {key} introuvable !"
 
 command.createFaction.message: "La Faction {faction} vient d'être créer !"
 command.disbandFaction.message: "Vous venez de supprimer votre Faction !"
+command.powerFaction.message: "Vous avez {power} power !"
 
 command.alreadyFactionExist.message: "Cette faction éxiste deja !"
 command.haveFaction.message: "Vous ne pouvez pas faire cette commande en étant dans une Faction !"

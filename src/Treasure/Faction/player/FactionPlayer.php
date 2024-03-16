@@ -4,8 +4,6 @@ namespace Treasure\Faction\player;
 
 use pocketmine\player\Player;
 use pocketmine\Server;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 final class FactionPlayer implements \JsonSerializable
 {

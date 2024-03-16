@@ -2,7 +2,6 @@
 
 namespace Treasure\Faction\command\argument;
 
-use pocketmine\player\Player;
 use Treasure\Faction\attribute\FactionAttribute;
 use Treasure\Faction\command\commando\args\RawStringArgument;
 use Treasure\Faction\language\Language;

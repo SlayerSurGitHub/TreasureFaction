@@ -16,7 +16,7 @@ use Treasure\Faction\provider\Provider;
 
 abstract class ArgumentFactionCommand extends BaseSubCommand
 {
-    protected const REQUIRED_FACTION = true;
+    protected const REQUIRED_FACTION = false;
     protected const REQUIRED_HOLDER = FactionHolder::RECRUIT;
     protected const REQUIRED_PERMISSION = null;
 
