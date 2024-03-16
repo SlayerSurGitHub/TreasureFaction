@@ -52,6 +52,16 @@ final class FactionProvider
         $this->factions[strtolower(string: $attribute->getName())] = $attribute;
     }
 
+    public function removeFaction(FactionAttribute $attribute): void
+    {
+        if (!array_key_exists(key: strtolower(string: $attribute->getName()), array: $this->factions))
+        {
+            return;
+        }
+
+        unset($this->factions[strtolower(string: $attribute->getName())]);
+    }
+
     public function getFaction(string $username): ?FactionAttribute
     {
         $result = null;

@@ -8,6 +8,7 @@ use Treasure\Faction\command\commando\args\RawStringArgument;
 use Treasure\Faction\language\Language;
 use Treasure\Faction\language\Translation;
 use Treasure\Faction\permission\FactionHolder;
+use Treasure\Faction\player\FactionPlayer;
 use Treasure\Faction\provider\Provider;
 
 final class CreateCommand extends ArgumentFactionCommand
@@ -21,13 +22,13 @@ final class CreateCommand extends ArgumentFactionCommand
         $this->registerArgument(position: 0, argument: new RawStringArgument(name: "name", optional: false));
     }
 
-    public function onPostExecute(Player $player, ?FactionAttribute $faction, array $args): void
+    public function onPostExecute(FactionPlayer $player, ?FactionAttribute $faction, array $args): void
     {
         $factionName = $args["name"];
 
         if (strlen(string: $factionName) < 4 or strlen(string: $factionName) > 12 or !ctype_alnum($factionName))
         {
-            $player->sendMessage(
+            $player->getPlayer()->sendMessage(
                 Language::getInstance()->translate(translation: new Translation(key: "command.haveFaction.message"))
             );
             return;
@@ -35,7 +36,7 @@ final class CreateCommand extends ArgumentFactionCommand
 
         if (!ctype_alnum($factionName))
         {
-            $player->sendMessage(
+            $player->getPlayer()->sendMessage(
                 Language::getInstance()->translate(translation: new Translation(key: "command.haveFaction.message"))
             );
             return;
@@ -43,18 +44,18 @@ final class CreateCommand extends ArgumentFactionCommand
 
         if (array_key_exists(key: strtolower(string: $factionName), array: Provider::FACTION()->getFactions()))
         {
-            $player->sendMessage(
+            $player->getPlayer()->sendMessage(
                 Language::getInstance()->translate(translation: new Translation(key: "command.alreadyFactionExist.message"))
             );
             return;
         }
 
         $faction = new FactionAttribute(name: $factionName);
-        $faction->addMember(username: $player->getName(), holder: FactionHolder::LEADER);
+        $faction->addMember(username: $player->getPlayer()->getName(), holder: FactionHolder::LEADER);
 
         Provider::FACTION()->addFaction(attribute: $faction);
 
-        $player->sendMessage(
+        $player->getPlayer()->sendMessage(
             Language::getInstance()->translate(translation: new Translation(key: "command.createFaction.message", parameters: ["{faction}" => $factionName]))
         );
     }

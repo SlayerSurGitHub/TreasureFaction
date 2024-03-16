@@ -102,7 +102,7 @@ final class FactionAttribute implements \JsonSerializable
 
     public static function jsonUnserialize(array $jsonSerialize): self
     {
-        return new self($jsonSerialize["name"], $jsonSerialize["members"], $jsonSerialize["permissions"]);
+        return new self($jsonSerialize["name"], $jsonSerialize["members"], $jsonSerialize["permissions"], $jsonSerialize["logs"]);
     }
 
     public function jsonSerialize(): array
@@ -111,6 +111,7 @@ final class FactionAttribute implements \JsonSerializable
             "name" => $this->name,
             "members" => $this->members,
             "permissions" => $this->permissions,
+            "logs" => $this->logs
         ];
     }
 

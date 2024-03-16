@@ -11,12 +11,14 @@ use Treasure\Faction\Faction;
 use Treasure\Faction\language\Language;
 use Treasure\Faction\language\Translation;
 use Treasure\Faction\permission\FactionHolder;
+use Treasure\Faction\player\FactionPlayer;
 use Treasure\Faction\provider\Provider;
 
 abstract class ArgumentFactionCommand extends BaseSubCommand
 {
     protected const REQUIRED_FACTION = true;
     protected const REQUIRED_HOLDER = FactionHolder::RECRUIT;
+    protected const REQUIRED_PERMISSION = null;
 
     public function __construct(string $name, string $description = "", array $aliases = [])
     {
@@ -54,6 +56,18 @@ abstract class ArgumentFactionCommand extends BaseSubCommand
                 return;
             }
 
+            if (!is_null(value: self::REQUIRED_PERMISSION))
+            {
+                if (!$faction->hasPermission(holder: $faction->getHolder(username: $sender->getName()), permission: self::REQUIRED_PERMISSION))
+                {
+                    $sender->sendMessage(
+                        Language::getInstance()->translate(translation: new Translation(key: "command.lowHolder.message"))
+                    );
+                    return;
+                }
+
+            }
+
         }
         elseif ($hasFaction)
         {
@@ -63,8 +77,8 @@ abstract class ArgumentFactionCommand extends BaseSubCommand
             return;
         }
 
-        $this->onPostExecute(player: $sender, faction: $hasFaction ? $faction : null, args: $args);
+        $this->onPostExecute(player: Provider::SESSION()->getSession(username: $sender->getName()), faction: $hasFaction ? $faction : null, args: $args);
     }
 
-    abstract public function onPostExecute(Player $player, ?FactionAttribute $faction, array $args): void;
+    abstract public function onPostExecute(FactionPlayer $player, ?FactionAttribute $faction, array $args): void;
 }

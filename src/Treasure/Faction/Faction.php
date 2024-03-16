@@ -35,6 +35,7 @@ final class Faction extends PluginBase
         new Language(config: new Config(file: $this->getDataFolder() . "language/" . $this->config->get(k: "default_language") . "_language.yml"));
 
         Provider::FACTION()->loadFactions();
+        Provider::SESSION()->loadSessions();
 
         $this->getServer()->getCommandMap()->register(fallbackPrefix: "", command: new FactionCommand());
     }
@@ -42,6 +43,7 @@ final class Faction extends PluginBase
     protected function onDisable(): void
     {
         Provider::FACTION()->saveFactions();
+        Provider::SESSION()->saveSessions();
     }
 
     public function getConfig(): Config
