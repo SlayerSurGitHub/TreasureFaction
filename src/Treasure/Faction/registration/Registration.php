@@ -23,7 +23,7 @@ abstract readonly class Registration
 
     abstract public function getText(): string;
 
-    public function toText(): string
+    public function __toString(): string
     {
         return str_replace(search: array_keys(array: $this->requirements), replace: array_values(array: $this->requirements), subject: $this->getText());
     }
