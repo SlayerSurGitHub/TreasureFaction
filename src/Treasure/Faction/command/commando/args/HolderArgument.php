@@ -8,7 +8,7 @@ use Treasure\Faction\permission\FactionHolder;
 final class HolderArgument extends StringEnumArgument
 {
     protected const VALUES = [
-        FactionHolder::LEADER, FactionHolder::OFFICER, FactionHolder::MEMBER, FactionHolder::RECRUIT
+        "leader", "officer", "member", "recruit", "alliance"
     ];
 
     public function getTypeName(): string

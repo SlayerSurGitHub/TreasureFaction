@@ -11,8 +11,8 @@ use Treasure\Faction\provider\Provider;
 
 final class DisbandCommand extends ArgumentFactionCommand
 {
-    protected const REQUIRED_FACTION = true;
-    protected const REQUIRED_HOLDER = FactionHolder::LEADER;
+    protected bool $requiredFaction = true;
+    protected int $requiredHolder = FactionHolder::LEADER;
 
     public function onPostExecute(FactionPlayer $player, ?FactionAttribute $faction, array $args): void
     {

@@ -1,1 +1,10 @@
 default_language: "fr"
+
+faction:
+  limits:
+    alliance: 1
+    members: 10
+
+power:
+  gain_per_kill: 10
+  lost_per_death: 5

@@ -69,13 +69,13 @@ final class FactionProvider
         (new FactionDisbandEvent(faction: $attribute))->call();
     }
 
-    public function getFaction(string $username): ?FactionAttribute
+    public function getFaction(string $name): ?FactionAttribute
     {
         $result = null;
 
         foreach ($this->factions as $faction)
         {
-            if (!$faction->isMember(member: $username)) continue;
+            if (!$faction->isMember(member: $name)) continue;
 
             $result = $faction;
             break;

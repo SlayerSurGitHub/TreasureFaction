@@ -38,7 +38,7 @@ final class Faction extends PluginBase
         Provider::FACTION()->loadFactions();
         Provider::SESSION()->loadSessions();
 
-        $this->getServer()->getPluginManager()->registerEvents(listener: new FactionListener(), plugin: $this);
+        $this->getServer()->getPluginManager()->registerEvents(listener: new FactionListener(faction: $this), plugin: $this);
         $this->getServer()->getCommandMap()->register(fallbackPrefix: "", command: new FactionCommand());
     }
 

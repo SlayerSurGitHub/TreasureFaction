@@ -10,7 +10,7 @@ use Treasure\Faction\provider\Provider;
 
 final class PowerCommand extends ArgumentFactionCommand
 {
-    protected const REQUIRED_FACTION = false;
+    protected bool $requiredFaction = false;
 
     public function onPostExecute(FactionPlayer $player, ?FactionAttribute $faction, array $args): void
     {

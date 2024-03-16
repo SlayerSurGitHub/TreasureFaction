@@ -59,9 +59,9 @@ final class FactionAttribute implements \JsonSerializable
         }, initial: false);
     }
 
-    public function getMembers(): array
+    public function getMembers(bool $list = false): array
     {
-        return $this->members;
+        return $list ? array_merge(arrays: array_values(array: $this->members)) : $this->members;
     }
 
     public function getHolder(string $username): int
@@ -127,7 +127,7 @@ final class FactionAttribute implements \JsonSerializable
 
     public function addRegistration(Registration $registration): void
     {
-        $this->registrations[] = $registration->toText();
+        $this->registrations[] = $registration->__toString();
     }
 
     public function getRegistrations(): array
@@ -146,17 +146,19 @@ final class FactionAttribute implements \JsonSerializable
 
     public static function jsonUnserialize(array $jsonSerialize): self
     {
-        return new self($jsonSerialize["name"], $jsonSerialize["members"], $jsonSerialize["permissions"], $jsonSerialize["logs"]);
+        return new self($jsonSerialize["name"], $jsonSerialize["members"], $jsonSerialize["permissions"], $jsonSerialize["alliances"], $jsonSerialize["registrations"]);
     }
 
     public function jsonSerialize(): array
     {
-        return [
-            "name" => $this->name,
-            "members" => $this->members,
-            "permissions" => $this->permissions,
-            "logs" => $this->logs
-        ];
+        $result = [];
+
+        foreach ((new \ReflectionClass(self::class))->getProperties() as $property)
+        {
+            $result[$property->getName()] = $property->getValue();
+        }
+
+        return $result;
     }
 
 }

@@ -10,9 +10,7 @@ use function preg_match;
 use function strtolower;
 
 class TargetPlayerArgument extends BaseArgument{
-	public function __construct(bool $optional = false, ?string $name = null){
-		$name = is_null($name) ? "player" : $name;
-
+	public function __construct(string $name, bool $optional = false){
 		parent::__construct($name, $optional);
 	}
 

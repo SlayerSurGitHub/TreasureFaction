@@ -16,9 +16,9 @@ use Treasure\Faction\provider\Provider;
 
 abstract class ArgumentFactionCommand extends BaseSubCommand
 {
-    protected const REQUIRED_FACTION = false;
-    protected const REQUIRED_HOLDER = FactionHolder::RECRUIT;
-    protected const REQUIRED_PERMISSION = null;
+    protected bool $requiredFaction = true;
+    protected int $requiredHolder = FactionHolder::RECRUIT;
+    protected ?string $requiredPermission = null;
 
     public function __construct(string $name, string $description = "", array $aliases = [])
     {
@@ -36,7 +36,7 @@ abstract class ArgumentFactionCommand extends BaseSubCommand
 
         $hasFaction = Provider::FACTION()->hasFaction(username: $sender->getName());
 
-        if (self::REQUIRED_FACTION)
+        if ($this->requiredFaction)
         {
             if (!$hasFaction)
             {
@@ -46,9 +46,9 @@ abstract class ArgumentFactionCommand extends BaseSubCommand
                 return;
             }
 
-            $faction = Provider::FACTION()->getFaction(username: $sender->getName());
+            $faction = Provider::FACTION()->getFaction(name: $sender->getName());
 
-            if ($faction->getHolder(username: $sender->getName()) < self::REQUIRED_HOLDER)
+            if ($faction->getHolder(username: $sender->getName()) < $this->requiredHolder)
             {
                 $sender->sendMessage(
                     Language::getInstance()->translate(translation: new Translation(key: "command.lowHolder.message"))
@@ -56,7 +56,7 @@ abstract class ArgumentFactionCommand extends BaseSubCommand
                 return;
             }
 
-            if (!is_null(value: self::REQUIRED_PERMISSION))
+            if (!is_null(value: $this->requiredPermission))
             {
                 if (!$faction->hasPermission(holder: $faction->getHolder(username: $sender->getName()), permission: self::REQUIRED_PERMISSION))
                 {

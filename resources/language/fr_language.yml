@@ -2,6 +2,8 @@ unknown: "Message {key} introuvable !"
 
 command.createFaction.message: "La Faction {faction} vient d'être créer !"
 command.disbandFaction.message: "Vous venez de supprimer votre Faction !"
+command.joinFaction.message: "Vous venez de rejoindre la Faction !"
+command.permissionUpdate.message: "Vous venez de modifier les permissions du rôle {holder} !"
 command.powerFaction.message: "Vous avez {power} power !"
 
 command.alreadyFactionExist.message: "Cette faction éxiste deja !"
@@ -9,4 +11,14 @@ command.haveFaction.message: "Vous ne pouvez pas faire cette commande en étant 
 command.requiredFaction.message: "La commande {command} vous demande d'être dans une Faction!"
 command.lowHolder.message: "Vous n'avez pas la permission de faire cette commande !"
 
+faction.maxMember.message: "La Faction contient la limite de membre autoriser ({limit}) !"
+faction.maxAlliance.message: "Votre Faction contient la limite d'alliance autoriser ({limit}) !"
+faction.untraceable.message: "La Faction donné est invalide !"
+
 invalid.str.message: "La chaîne de caractères {str} est invalide pour cette utilisation !"
+
+request.factionSend.message: "Vous avez inviter {username} dans votre Faction !"
+request.factionReceive.message: "Vous êtes inviter dans la Faction {faction} !"
+request.noReceive.message: "Vous n'avez reçu aucune requête !"
+
+session.invalid.message: "Le joueur donné est introuvable "

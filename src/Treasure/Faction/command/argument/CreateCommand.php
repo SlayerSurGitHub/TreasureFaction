@@ -12,7 +12,7 @@ use Treasure\Faction\provider\Provider;
 
 final class CreateCommand extends ArgumentFactionCommand
 {
-    protected const REQUIRED_FACTION = false;
+    protected bool $requiredFaction = false;
 
     protected function prepare(): void
     {

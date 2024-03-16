@@ -4,6 +4,7 @@ namespace Treasure\Faction\player;
 
 use pocketmine\player\Player;
 use pocketmine\Server;
+use Treasure\Faction\attribute\FactionAttribute;
 use Treasure\Faction\event\power\PowerChangeEvent;
 
 final class FactionPlayer
@@ -12,12 +13,27 @@ final class FactionPlayer
     (
         private readonly string $username,
         private float $power = 0.0,
-    )
-    {}
+        private array $requests = []
+    ) {}
 
     public function getPlayer(): ?Player
     {
         return Server::getInstance()->getPlayerExact($this->username);
+    }
+
+    public function sendRequest(FactionAttribute $faction): void
+    {
+        if (!array_key_exists(key: $faction->getName(), array: $this->requests)) $this->requests[$faction->getName()] = time() + 30;
+    }
+
+    public function removeRequest(FactionAttribute $faction): void
+    {
+        if (array_key_exists(key: $faction->getName(), array: $this->requests)) unset($this->requests[array_key_exists(key: $faction->getName(), array: $this->requests)]);
+    }
+
+    public function hasRequest(FactionAttribute $faction): bool
+    {
+        return array_key_exists(key: $faction->getName(), array: $this->requests) and $this->requests[$faction->getName()] > time();
     }
 
     public function addPower(float $power): void
