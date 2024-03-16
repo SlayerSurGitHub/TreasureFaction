@@ -4,8 +4,9 @@ namespace Treasure\Faction\player;
 
 use pocketmine\player\Player;
 use pocketmine\Server;
+use Treasure\Faction\event\power\PowerChangeEvent;
 
-final class FactionPlayer implements \JsonSerializable
+final class FactionPlayer
 {
     public function __construct
     (
@@ -19,9 +20,18 @@ final class FactionPlayer implements \JsonSerializable
         return Server::getInstance()->getPlayerExact($this->username);
     }
 
-    public function setPower(float $power): void
+    public function addPower(float $power): void
     {
         $this->power += $power;
+
+        (new PowerChangeEvent(player: $this, newPower: $this->power, oldPower: ($this->power - $power)))->call();
+    }
+
+    public function reducePower(float $power): void
+    {
+        $this->power -= $power;
+
+        (new PowerChangeEvent(player: $this, newPower: $this->power, oldPower: ($this->power + $power)))->call();
     }
 
     public function getPower(): float
@@ -29,12 +39,12 @@ final class FactionPlayer implements \JsonSerializable
         return $this->power;
     }
 
-    public static function jsonUnserialize(array $jsonSerialize): self
+    public static function loadData(array $jsonSerialize): self
     {
         return new self(username: $jsonSerialize["username"], power: $jsonSerialize["power"]);
     }
 
-    public function jsonSerialize(): array
+    public function saveData(): array
     {
         return [
             "username" => $this->username,

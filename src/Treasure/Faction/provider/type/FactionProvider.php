@@ -5,6 +5,8 @@ namespace Treasure\Faction\provider\type;
 
 use pocketmine\utils\Config;
 use Treasure\Faction\attribute\FactionAttribute;
+use Treasure\Faction\event\faction\FactionCreateEvent;
+use Treasure\Faction\event\faction\FactionDisbandEvent;
 
 final class FactionProvider
 {
@@ -50,6 +52,9 @@ final class FactionProvider
         }
 
         $this->factions[strtolower(string: $attribute->getName())] = $attribute;
+
+        (new FactionCreateEvent(faction: $attribute))->call();
+
     }
 
     public function removeFaction(FactionAttribute $attribute): void
@@ -60,6 +65,8 @@ final class FactionProvider
         }
 
         unset($this->factions[strtolower(string: $attribute->getName())]);
+
+        (new FactionDisbandEvent(faction: $attribute))->call();
     }
 
     public function getFaction(string $username): ?FactionAttribute

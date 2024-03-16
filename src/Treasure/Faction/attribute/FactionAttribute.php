@@ -2,6 +2,7 @@
 
 namespace Treasure\Faction\attribute;
 
+use Treasure\Faction\event\permission\PermissionChangeEvent;
 use Treasure\Faction\permission\FactionHolder;
 use Treasure\Faction\permission\FactionPermission;
 use Treasure\Faction\registration\Registration;
@@ -78,6 +79,7 @@ final class FactionAttribute implements \JsonSerializable
             $this->permissions[$holder][] = $permission;
         }
 
+        (new PermissionChangeEvent(faction: $this, holder: $holder, permission: $permission, value: $value))->call();
     }
 
     public function hasPermission(string $holder, string $permission): bool

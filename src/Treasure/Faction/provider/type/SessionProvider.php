@@ -22,7 +22,7 @@ final class SessionProvider
 
         foreach ($config->getAll() as $name => $values)
         {
-            $result[$name] = FactionPlayer::jsonUnserialize(jsonSerialize: $values);
+            $result[$name] = FactionPlayer::loadData(jsonSerialize: $values);
         }
 
         $this->sessions = $result;
@@ -35,7 +35,7 @@ final class SessionProvider
 
         foreach ($this->sessions as $name => $values)
         {
-            $result[$name] = $values->jsonSerialize();
+            $result[$name] = $values->saveData();
         }
 
         $config->setAll(v: $result);
